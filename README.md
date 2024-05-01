@@ -1,5 +1,5 @@
-# TrainIt global leaderboard
-This is the global leaderboard for the TrainIt datathon.
+# ai fest global leaderboard
+This is the global leaderboard for the ai fest datathon.
 
 ---
 
@@ -18,8 +18,8 @@ source myvenv/bin/activate
 ```
 3- Clone the project
 ```bash
-git clone git@github.com:yassermessahli/TrainIt-datathon-leaderboard.git
-cd TrainIt-datathon-leaderboard
+git clone https://github.com/Su-mia/AIFest_leaderboard.git
+cd AIFest-leaderboard
 ```
 4- Install the requirements
 ```bash
@@ -32,3 +32,6 @@ python manage.py runserver
 6- Open your browser and go to the following link: http://127.0.0.1:8000/
 
 
+
+7 - adjust this path if needed 
+export KAGGLE_CONFIG_DIR="path to the file kaggle"

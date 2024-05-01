@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Train-it leaderboard</title>
+    <title>AI Fest leaderboard</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}">
     <script>
         // Function to reload the page
         function reloadPage() {
@@ -11,27 +13,63 @@
         }
     
         // Set interval to reload the page at regular intervals
-        setInterval(reloadPage, 20000); // Refresh every 20 seconds
+        setInterval(reloadPage, 20000000); // Refresh every 20 seconds
     </script>
 </head>
+
 <body>
-    <h1>Leaderboard</h1>
-    <table>
-        <tr>
-            <th>Rank</th>
-            <th>Team</th>
-            {% for c in competitions %}
-                <th>{{ c }}</th>
-            {% endfor %}
-        </tr>
-        {% for team in global_rank %}
-            <tr>
-                <td>{{ team.rank }}</td>
-                <td>{{ team.team }}</td>
-                {% for r in team.all_ranks.values %}
-                    <td>{{ r }}</td>
+    <h1>Leaderboard of AI FEST</h1>
+    <h2> - First and Second year students</h1>
+        <div class="table_container">
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team</th>
+                    {% for c in competitions_first %}
+                        <th>{{ c }}</th>
+                    {% endfor %}
+                </tr>
+                {% for team in global_rank_first %}
+                    <tr>
+                        <td>{{ team.rank }}</td>
+                        <td>{{ team.team }}</td>
+                        {% for r in team.all_ranks.values %}
+                            {% if r.inCompetition %}
+                                <td>{{ r.rank }}</td>
+                            {% else %}
+                                <td class="notin">Not in </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
                 {% endfor %}
-            </tr>
-        {% endfor %}
+        </table>
+      </div>
+
+
+    <h2 class="secondheader"> - Third year students</h1>
+        <div class="table_container">
+            <table>
+                <tr>
+                    <th>Rank</th>
+                    <th>Team</th>
+                    {% for c in competitions_second %}
+                        <th>{{ c }}</th>
+                    {% endfor %}
+                </tr>
+                {% for team in global_rank_second %}
+                    <tr>
+                        <td>{{ team.rank }}</td>
+                        <td>{{ team.team }}</td>
+                        {% for r in team.all_ranks.values %}
+                            {% if r.inCompetition %}
+                                <td>{{ r.rank }}</td>
+                            {% else %}
+                                <td class="notin">Not in </td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </table>
+        </div>
 </body>
 </html>

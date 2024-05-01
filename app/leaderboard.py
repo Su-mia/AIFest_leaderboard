@@ -22,7 +22,9 @@ def fetch_competition_leaderboard(competition: str):
         team["rank"] = i + 1
         for f in result_fields:
             team[f] = str(getattr(results[i], f))
+
         leaderboard.append(team)
+        print(leaderboard)
 
     return leaderboard
 
@@ -36,13 +38,17 @@ def get_all_ranks(team: str, competitions: list):
     ranks = {}
     for c in competitions:
         results = fetch_competition_leaderboard(c)
+        inCompetition = False
         for r in results:
             if r["teamName"] == team:
-                ranks[c] = r["rank"]
+                inCompetition = True
+                ranks[c] = {"rank": r["rank"], "inCompetition": inCompetition}
                 break
         if c not in ranks.keys():
-            ranks[c] = len(results) + 1
+            ranks[c] = {"rank": len(results) + 1, "inCompetition": inCompetition}
     result["ranks"] = ranks
+    print("from getl all ranks")
+    print(result)
     return result
 
 
@@ -72,13 +78,14 @@ def calculate_global_rank(teams: list, competitions: list, weights: list):
         # calculate the score of the team
         score = 0
         for c, w in zip(competitions, weights):
-            score += 1 / ranks[c] * w
+            score +=  ranks[c]["rank"] * w
+    
 
         # append the team to the global rank
         global_rank.append({"team": t, "score": score, "all_ranks": ranks})
 
     # sort the global rank based on the score
-    global_rank = sorted(global_rank, key=lambda x: x["score"], reverse=True)
+    global_rank = sorted(global_rank, key=lambda x: x["score"], reverse=False)
     # add ranks to the global rank
     for i, r in enumerate(global_rank):
         global_rank[i]["rank"] = i + 1
