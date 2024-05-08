@@ -24,7 +24,6 @@ def fetch_competition_leaderboard(competition: str):
             team[f] = str(getattr(results[i], f))
 
         leaderboard.append(team)
-        print(leaderboard)
 
     return leaderboard
 
@@ -47,8 +46,6 @@ def get_all_ranks(team: str, competitions: list):
         if c not in ranks.keys():
             ranks[c] = {"rank": len(results) + 1, "inCompetition": inCompetition}
     result["ranks"] = ranks
-    print("from getl all ranks")
-    print(result)
     return result
 
 
