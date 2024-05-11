@@ -22,13 +22,12 @@ def fetch_competition_leaderboard(competition: str):
         team["rank"] = i + 1
         for f in result_fields:
             team[f] = str(getattr(results[i], f))
-
         leaderboard.append(team)
 
     return leaderboard
 
 
-def get_all_ranks(team: str, competitions: list):
+def get_all_ranks(team: str, competitions: list ):
     """
     Get all ranks of a team in a list of competitions, in a form of a dictionary.
     """
@@ -48,8 +47,10 @@ def get_all_ranks(team: str, competitions: list):
     result["ranks"] = ranks
     return result
 
+#{'rank': 8, 'teamId': '9938890', 'teamName': 'K-beans', 'submissionDate': '2023-02-24 19:05:14', 'score': '0.40923'}
 
-def calculate_global_rank(teams: list, competitions: list, weights: list):
+
+def calculate_global_rank(teams: list, competitions: list, weights: list , additional : bool , additionalList : dict ):
     """
     function to calculate the global rank of a team based on its ranks in a list of competitions
     `NOTE`: this function is specific in our competition's scoring system, you may need to adjust it based on your competition
@@ -57,32 +58,53 @@ def calculate_global_rank(teams: list, competitions: list, weights: list):
     """
 
     # each competition has a weight. the competitions list must have the same length as the weights list
-    if len(competitions) != len(weights):
-        raise ValueError(
-            "The competitions list and the weights list must have the same length."
-        )
+    if not additional:
+        if len(competitions) != len(weights):
+            raise ValueError(
+                "The competitions list and the weights list must have the same length."
+            )
     # the sum of weights must be equal to 100 (specific to our competition scoring system)
-    if sum(weights) != 100:
-        raise ValueError("The sum of weights must be equal to 100.")
+    # if sum(weights) != 100:
+    #     raise ValueError("The sum of weights must be equal to 100.")
 
     # more the weight is high more the competition is important
     # calculating the global score of each team
+
+    
     global_rank = []
     for t in teams:
+        print("temas")
+        print(teams)
+        print(t)
         # get all ranks of the team in the competitions
+        if 'not-in-kaggle' in competitions:
+            competitions.remove('not-in-kaggle')
         ranks = get_all_ranks(t, competitions)["ranks"]
+        print("x")
+        if additional:
+           ranks.update(additionalList[t])
+        print("y")
+
 
         # calculate the score of the team
         score = 0
+        if additional:
+                competitions.append('not-in-kaggle')
         for c, w in zip(competitions, weights):
             score +=  ranks[c]["rank"] * w
+
     
 
-        # append the team to the global rank
+        # append the team to the global rank``
         global_rank.append({"team": t, "score": score, "all_ranks": ranks})
+        print('global_rank')
+        print(global_rank)
 
     # sort the global rank based on the score
+    print("global_rank")
+    print(global_rank)
     global_rank = sorted(global_rank, key=lambda x: x["score"], reverse=False)
+    print("just before the return ")
     # add ranks to the global rank
     for i, r in enumerate(global_rank):
         global_rank[i]["rank"] = i + 1
