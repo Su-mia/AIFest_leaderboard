@@ -12,7 +12,9 @@ def leaderboard_view(request):
     teams_first = [
           "Myss AI",
           "ML Builders",
-          "zero"
+          "zero",
+          "SumurAI",
+          "GoldyLocks"
 
     ]  # Replace with actual team names
     competitions_first = [
@@ -20,15 +22,18 @@ def leaderboard_view(request):
         "multi-label-classification-aifest24",
         "cars-price-prediction"
     ]  # Replace with actual competition IDs
-    weights_first = [6 , 6 , 5]  # Replace with actual weights
+    weights_first = [6 , 6 , 4 , 5]  # Replace with actual weights
 
     additionalList = {
-    'kurtosis': { 'not-in-kaggle' : {'rank': 2, 'inCompetition': True}}, 
-    'Megatron': { 'not-in-kaggle' : {'rank': 1, 'inCompetition': True}}, 
+    'Myss AI': { 'not-in-kaggle' : {'rank': 1, 'inCompetition': True}}, 
+    'zero': { 'not-in-kaggle' : {'rank': 2, 'inCompetition': True}}, 
+    'ML Builders': { 'not-in-kaggle' : {'rank': 6, 'inCompetition': False}}, 
+    'SumurAI': { 'not-in-kaggle' : {'rank': 6, 'inCompetition': False}}, 
+    'GoldyLocks': { 'not-in-kaggle' : {'rank': 6, 'inCompetition': False}}, 
     }
 
     # get the global rank of the first set of teams
-    global_rank_first = calculate_global_rank(teams_first, competitions_first, weights_first , False , {})
+    global_rank_first = calculate_global_rank(teams_first, competitions_first, weights_first , True , additionalList)
 
     teams_second = [
          "ABCode",
